@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Optimizing Memory Usage for Storing Card Hands in Linked Lists</title>
+</head>
+<body>
+    <header>
+        <h1>Optimizing Memory Usage for Storing Card Hands in Linked Lists</h1>
+        <a href="main.html">Back to Portfolio</a>
+    </header>
+    <section>
+        <h3>Language Used: Java</h3>
+        <p><strong>Objective:</strong> The goal of this project is to optimize the storage of card hands in linked lists by sharing tail elements among hands that have identical tail cards. The task involves calculating the minimum number of linked list nodes required to store all the card hands after applying this optimization.</p>
+        <h3>Design and Implementation:</h3>
+        <ul>
+            <li>Structure: The code is organized into three main functions: count_linked_list_nodes(), parse_input(), and main().</li>
+            <li>Data Representation: Card hands are represented as linked lists, and tails are stored as tuples in a dictionary.</li>
+            <li>Algorithm:</li>
+            <ul>
+                <li>Parsing Input: The parse_input() function reads input lines, converts them into card hands, and stores them as test cases.</li>
+                <li>Counting Nodes: The count_linked_list_nodes() function calculates the total number of unique linked list nodes needed to store all card hands.</li>
+                <li>Main Execution: The main() function serves as the entry point, managing the overall flow of the code.</li>
+            </ul>
+        </ul>
+        <h3>Detailed Analysis:</h3>
+        <ul>
+            <li>Parsing Input: The parse_input() function reads the number of hands for each test case and uses list comprehension to process the hands. Test cases are stored in a list called cases.</li>
+            <li>Tail Optimization: The count_linked_list_nodes() function iterates through each card hand, creating tails starting from each card. It maintains a dictionary called tail_counts to keep track of unique tails and ensures that shared tails are counted only once.</li>
+            <li>Result Presentation: The main() function reads input data, processes test cases, and prints the result for each test case.</li>
+            <li>Time Complexity: The overall time complexity of the code is \( O(n^2) \), where \( n \) is the number of cards in a hand.</li>
+        </ul>
+        <h3>Code:</h3>
+        <pre>
+import sys
+# Function to count the number of linked list nodes needed to store all the card hands.
+def count_linked_list_nodes(card_hands):
+    # A dictionary to store the count of each unique tail.
+    # This allows us to keep track of the shared tails and count only the unique ones.
+    tail_counts = {}
+    # A variable to keep track of the total number of linked list nodes.
+    total_nodes = 0
+            
+    # Iterate through each hand in the card hands.
+    for hand in card_hands:
+        # Iterate through each card in the hand.
+        # This allows us to create tails starting from each card in the hand.
+        for i in range(len(hand)):
+            # Create a tail by slicing the hand from the current index to the end.
+            # Using a tuple ensures that the tail is hashable and can be used as a dictionary key.
+            tail = tuple(hand[i:])
+            # Increment the count of the current tail in the dictionary.
+            # We use the get() method to provide a default value of 0 if the tail is not already in the dictionary.
+            tail_counts[tail] = tail_counts.get(tail, 0) + 1
+            # If this is the first occurrence of the tail, increment the total nodes count.
+            # This ensures that we only count unique tails, as they contribute to the total number of nodes.
+            if tail_counts[tail] == 1:
+                total_nodes += 1
+            
+    # Return the total number of linked list nodes.
+    return total_nodes
+            
+# Function to parse the input lines and convert them into a list of test cases.
+def parse_input(input_lines):
+    # Convert the input_lines into an iterator.
+    # This makes it easier to read lines one by one during the parsing process.
+    input_lines = iter(input_lines)
+    # A list to store the parsed test cases.
+    cases = []
+            
+    # Continue processing input lines until a line with value 0 is encountered.
+    while True:
+        # Read the number of hands for the current test case.
+        num_hands = int(next(input_lines))
+        # If the number of hands is 0, stop processing input lines.
+        # This indicates the end of the input file.
+        if num_hands == 0:
+            break
+        # Read the card hands for the current test case and store them in the cases list.
+        # We use a list comprehension to read the specified number of hands and split them into individual cards.
+        hands = [next(input_lines).split()[1:] for _ in range(num_hands)]
+        cases.append(hands)
+            
+    # Return the list of parsed test cases.
+    return cases
+            
+def main():
+    # Read input data from standard input (stdin) and split it into lines
+    input_lines = sys.stdin.read().splitlines()
+            
+    # Call the parse_input function to process the input_lines and
+    # store the resulting test cases into the 'cases' variable
+    cases = parse_input(input_lines)
+            
+    # Iterate through each test case in the 'cases' list
+    for card_hands in cases:
+        # Call the count_linked_list_nodes function with the current test case
+        # and store the result into the 'result' variable
+        result = count_linked_list_nodes(card_hands)
+            
+        # Print the result for the current test case
+        print(result)
+            
+# Check if this script is being run as the main program
+if __name__ == "__main__":
+    # If the script is being run as the main program, execute the main function
+    main()
+        </pre>
+    </section>
+</body>
+</html>
+

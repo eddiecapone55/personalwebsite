@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Thermal Influence on Chirping Patterns: A Comparative Analysis of Cricket Species</title>
+</head>
+<body>
+    <header>
+        <h1>Thermal Influence on Chirping Patterns: A Comparative Analysis of Cricket Species</h1>
+        <a href="main.html">Back to Portfolio</a>
+    </header>
+    <section>
+        <h3>Language Used: R</h3>
+        <p><strong>Project Overview:</strong></p>
+        <p><strong>Objective:</strong> This project investigates the relationship between temperature and chirping rates (pulse) for two different species of crickets, Oecanthus exclamationis (ex) and Oecanthus niveus (niv).</p>
+        <p><strong>Data:</strong> The provided dataset, <a href="crickets.csv" download>crickets.csv</a>, contains information on temperature and pulse rates for the two species of crickets.</p>
+        <p>The analysis is conducted through several statistical techniques and visualizations, including:</p>
+        <ul>
+            <li>Exploratory Data Analysis (EDA): Descriptive statistics are provided to summarize the distribution of temperature and pulse rates across the two species. The data includes minimum, maximum, mean, and quartile values.</li>
+            <li>Data Visualization: The ggplot2 package is used to plot the pulse rate against temperature, color-coded by species, to visually represent the relationship.</li>
+            <li>Summary Statistics by Group: The data is split by species, and summary statistics are computed to understand the different characteristics of each group.</li>
+            <li>Analysis of Covariance (ANCOVA): ANCOVA is performed to test if the slopes of the regression lines modeling pulse on temperature are the same for each species. Two models are compared, one with an interaction term and one without.</li>
+            <li>Linear Regression Models: Multiple linear regression models are fitted to the data, considering interaction effects between temperature and species. The models are compared using ANOVA, and significant predictors are identified.</li>
+            <li>Intercept Comparison: Additional modeling is done to test if the intercepts are the same for both species. This involves comparing different models using ANOVA.</li>
+            <li>Estimation of Mean Difference: The mean difference in chirping rates between the two species is estimated, controlling for temperature.</li>
+        </ul>
+        <p><strong>Key Findings:</strong></p>
+        <ul>
+            <li>Both species of crickets exhibit a relatively strong positive relationship between temperature and chirping rate.</li>
+            <li>While the slopes of the regression lines are found to be the same, the intercepts are significantly different between the two species.</li>
+            <li>The relationship between temperature and pulse is statistically significant, explaining a high percentage of the variance in chirping rates.</li>
+        </ul>
+        <a href="Cricket Species Analysis.pdf" download>Download Project Code (PDF)</a>
+    </section>
+</body>
+</html>

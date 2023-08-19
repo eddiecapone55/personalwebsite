@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Analyzing the Impact of Pollution on Mortality Rates Across U.S. Cities</title>
+</head>
+<body>
+    <header>
+        <h1>Analyzing the Impact of Pollution on Mortality Rates Across U.S. Cities: An Examination of Sulfur Monoxide, Nitrogen Dioxide, and Confounding Factors</h1>
+        <a href="main.html">Back to Portfolio</a>
+    </header>
+    <section>
+        <h3>Language Used: R</h3>
+        <h3>Project Overview:</h3>
+        <p><strong>Objective:</strong> This project investigates the relationship between pollution in the form of sulfur monoxide (SO2) and nitrogen dioxide (NOX) on mortality rates across 60 cities in the United States. It also considers confounding variables like precipitation, education levels, and the percentage of non-white population within the cities.</p>
+        <h3>Data:</h3>
+        <p>The provided dataset, <a href="pollution.csv" download>pollution.csv</a>, consists of information on mortality rates, annual precipitation, average years of education, percentage of non-white population, and concentrations of NOX and SO2 for 60 U.S. cities.</p>
+        <h3>Statistical Analysis and Models:</h3>
+        <ul>
+            <li>Descriptive Statistics: A summary of the dataset provides key statistics like minimum, maximum, median, and mean values for each variable.</li>
+            <li>Exploratory Analysis: Scatter plots and pair plots are used to explore relationships between pollution variables and mortality. Log transformations are applied to some variables to achieve linearity.</li>
+            <li>Linear Regression Models: Two linear models are constructed:
+            a. The first model includes all variables, using logged SO2 and NOX.
+            b. The second model excludes an outlier (New Orleans) and maintains the same variables.
+            These models are evaluated for significance using p-values, Multiple R-squared, and Adjusted R-squared values.</li>
+        </ul>
+        <h3>Findings:</h3>
+        <ul>
+            <li>Logging the SO2 and NOX data provides the most linear scatter plot.</li>
+            <li>The relationship between SO2 and mortality is statistically significant (p &lt; 0.000217), while the relationship between NOX and mortality is not significant (p = 0.172967).</li>
+            <li>The interaction between NonWhite and log(SO2) is significant, implying that the relationship between SO2 and mortality varies based on the non-white population percentage.</li>
+            <li>Precipitation has a significant effect on mortality (p = 0.047423), but education does not show a significant relationship with mortality.</li>
+            <li>Outlier analysis leads to the removal of New Orleans due to abnormal values in cook’s distance, residuals, and leverage.</li>
+        </ul>
+        <a href="Analysis of the Impact of Pollution on Mortality Rates in the U.S..pdf" download>Download Project Code (PDF)</a>
+    </section>
+</body>
+</html>

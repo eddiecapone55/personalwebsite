@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Analyzing Ingestion Rates of Aquatic Organisms</title>
+</head>
+<body>
+    <header>
+        <h1>Analyzing Ingestion Rates of Aquatic Organisms: A Multivariate Exploration of Weight, Organic Content, and Bivalve Status</h1>
+        <a href="main.html">Back to Portfolio</a>
+    </header>
+    <section>
+        <h3>Language Used: R</h3>
+        <h3>Project Overview:</h3>
+        <p>Objective: This project aims to explore and understand the relationships between the ingestion rates of snails, worms, and bivalves and various factors such as their weight, the percentage of organic material at the bottom of ponds, lakes, and oceans, and whether the organism is a bivalve or not.</p>
+        <h3>Data:</h3>
+        <p>The provided dataset, <a href="DepositFeeders.csv" download>DepositFeeders.csv</a>, contains information on 19 different species with variables like dry weight (in milligrams), ingestion rate, the percentage of organic material, and, in the extended dataset, the bivalve status.</p>
+        <h3>Statistical Analysis and Models:</h3>
+        <ol>
+            <li>Descriptive Statistics: The project begins with a summary of the data, providing insights into the distribution of the species' weight, ingestion rates, and organic content.</li>
+            <li>Exploratory Analysis: Utilizing scatter plots and pair plots, both logged and unlogged variables are explored to visualize the relationship between weight, ingestion, and organic content.</li>
+            <li>Linear Regression Models: Two separate linear regression models are constructed:
+                <ul>
+                    <li>The first model predicts the logged ingestion rate using the logged weight and logged organic percentage.</li>
+                    <li>The second model includes the additional factor of whether the organism is a bivalve or not.</li>
+                </ul>
+                These models are then statistically evaluated for significance using p-values and R-squared values.
+            </li>
+        </ol>
+        <h3>Findings:</h3>
+        <ul>
+            <li>The relationship between weight and ingestion is more visible when they are both logged.</li>
+            <li>There is strong evidence of a relationship between log-transformed weight, log-transformed organic percentage, and ingestion rate.</li>
+            <li>Including the bivalve status in the analysis adds valuable insight, with a statistically significant relationship with the ingestion rate.</li>
+        </ul>
+        <a href="Analysis of Ingestion Rates of Aquatic Organisms.pdf">Download Project Code (PDF)</a>
+    </section>
+</body>
+</html>

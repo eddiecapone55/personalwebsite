@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Advanced Mathematical Expression Calculator</title>
+</head>
+<body>
+    <header>
+        <h1>Advanced Mathematical Expression Calculator</h1>
+        <a href="main.html">Back to Portfolio</a>
+    </header>
+    <section>
+        <h3>Language Used: Java</h3>
+        <h3>Project Description:</h3>
+        <p><strong>Objective:</strong> This calculator is designed to evaluate mathematical expressions provided by the user. It supports basic arithmetic operations, including addition, subtraction, multiplication, division, and modulus, as well as advanced operations like power, square root, trigonometric functions, logarithms, and rounding.</p>
+        <h3>Design and Implementation:</h3>
+        <ul>
+            <li>Main Function: The main method prompts the user to enter a mathematical expression, and then it calculates the result and prints it.</li>
+            <li>Parsing and Calculating: The calculate method takes the user's input and iteratively evaluates it by breaking it down into subequations.</li>
+            <li>Mathematical Operations: The domath method is responsible for performing specific mathematical operations based on operator characters in the subequations.</li>
+            <li>Subequation Handling: Several helper methods are used to find subequations, the beginning and ending of numbers, and convert substrings to numbers.</li>
+        </ul>
+        <h3>Detailed Analysis:</h3>
+        <ul>
+            <li>Input Handling: The user's equation is read using a Scanner object, and all spaces are removed to simplify parsing.</li>
+            <li>Subequation Identification: The code iteratively identifies and calculates subequations, starting from innermost parentheses and moving outward.</li>
+            <li>Operator Handling: A complex switch statement in the domath method interprets different characters as mathematical operations, including handling multi-character representations of functions like sine, cosine, and logarithms.</li>
+            <li>Error Handling: The code does not appear to include specific error handling for incorrect input, such as mismatched parentheses or unrecognized characters.</li>
+        </ul>
+        <h3>Code:</h3>
+        <pre>
+import java.util.Scanner;
+
+public class Calculator2 {
+    public static void main(String[] args) {
+        // Create a Scanner Object
+        Scanner input = new Scanner(System.in);
+        // prompt user to input equation
+        System.out.println("Enter your desired equation");
+        String equation = input.nextLine();
+        equation = calculate(equation);
+
+        double result = Double.parseDouble(equation);
+        System.out.print("Result: " + result);
+
+    }
+    public static double domath(double num1, double num2, String subequation, int opplace) {
+        // do the math and return result 
+        switch(subequation.charAt(opplace)) {
+            case '/':
+                return num1 / num2;
+            case '+':
+                return num1 + num2;
+            case '-':
+                return num1 - num2;
+            case '%':
+                return num1 % num2;
+            case '*':
+                if(subequation.charAt(opplace + 1) == '*') {
+                    return Math.pow(num1, num2);
+                }
+                else
+                    return num1 * num2;
+            case 's': // sin operation
+                if(subequation.charAt(opplace + 1) == 'i') {
+                    return Math.sin(num2);
+                }
+                else if(subequation.charAt(opplace + 1) == 'q')
+                    return Math.sqrt(num2);
+                break;
+            case 'c': // cos operation
+                if(subequation.charAt(opplace + 1) == 'o') {
+                    return Math.cos(num2);
+                }
+                else if(subequation.charAt(opplace + 1) == 'e') {
+                    return Math.ceil(num2);
+                }
+                break;
+            case 't': // tan operation
+                if(subequation.charAt(opplace + 1) == 'a') {
+                    return Math.tan(num2);
+                }
+                break;
+            case 'l': // log operation
+                if(subequation.charAt(opplace + 1) == 'o') {
+                    return Math.log(num2);
+                }
+                break;
+            case 'a': // arcsin, arccos, arctan operations
+                if(subequation.charAt(opplace + 1) == 's') {
+                    return Math.asin(num2);
+                }
+                else if(subequation.charAt(opplace + 1) == 'c') {
+                    return Math.acos(num2);
+                }
+                else if(subequation.charAt(opplace + 1) == 'b') {
+                    return Math.abs(num2);
+                }
+                else {
+                    return Math.atan(num2);
+                }
+        }
+        return 0;
+    }
+    
+    public static String calculate(String equation) { // calculates subequation
+        equation = equation.replace(" ", ""); // replace solved subequation with #
+        boolean resultfound = false;
+        while(!resultfound) {
+            String subequation = getsubequation(equation);
+
+            equation = equation.replace(subequation, "#");
+            subequation = findsubresult(subequation);
+            // To see if result is found
+
+            equation = equation.replace("#", subequation); // looking for operation to use for equation
+            for(int i = 0; i < equation.length(); i++) {
+                switch(equation.charAt(i)) {
+                    case '*':
+                    case '/':
+                    case '%':
+                    case '+':
+                    case ')':
+                    case '(':
+                    case 's':
+                    case 'c':
+                    case 't':
+                    case 'a':
+                    case 'l':
+                        resultfound = true;
+                        break;
+                    case '-':
+                        if(i != 0) {
+                            resultfound = true;
+                        }
+                        break;
+                }
+            }
+            resultfound = !resultfound;
+        }
+        return equation;
+    }
+    public static String getsubequation(String equation) {
+        // To find subequation inside paretheses
+        int start = 0;
+        int ending = -1;
+        ending = equation.length() - 1;
+        start = 0; // This is just another time when we forgot to change a variable back to 0. start should always be 0 until it's found
+        for(int i = 0; i < equation.length(); i++) {
+            if(equation.charAt(i) == '(') {
+                start = i;
+            } else if(equation.charAt(i) == ')') {
+                ending = i;
+                break;
+            }
+        }
+        String subequation = equation.substring(start, ending + 1);
+        return subequation;
+    }
+
+    public static String findsubresult(String subequation) {
+        // For each subequation
+        boolean subresultfound = false; 
+        int pemdas = -1;
+        int opplace = 0;
+        boolean normal = true;
+        double subresult = 0;
+        while(!subresultfound) {
+            pemdas = -1;
+            for(int i = 0; i < subequation.length(); i++) { // checking for various operators
+                if(subequation.charAt(i) == 's' || subequation.charAt(i) == 'c' || subequation.charAt(i) == 't') {
+                    normal = false;
+                    // sin, cos, tan,
+                    pemdas = 3;
+                    i += 2;
+                }
+                else if (subequation.charAt(i) == 'a') {
+                    normal = false;
+                    // asin, acos, atan
+                    pemdas = 3;
+                    i += 3;
+                }
+                else if (subequation.charAt(i) == 'l') {
+                    if (subequation.charAt(i+1) == 'o') {
+                        normal = false;
+                        // ln, log 
+                        pemdas = 3;
+                        i += 1;
+                    }
+                    else {
+                        normal = false;
+                        pemdas = 3;
+                        i += 1;
+                    }
+                }
+                else if(subequation.charAt(i) == '*' || subequation.charAt(i) == '/' || subequation.charAt(i) == '%') {
+                    if(pemdas < 1) {
+                        pemdas = 1;
+                        opplace = i;
+                        normal = true;
+                    }
+                    if(i != subequation.length() - 1) {
+                        if(subequation.charAt(i) == '*' && subequation.charAt(i + 1) == '*') {
+                            if(pemdas < 2) {
+                                pemdas = 2;
+                                opplace = i;
+                                normal = true;
+                            }
+                        }
+                    }
+                } else if(subequation.charAt(i) == '+' || subequation.charAt(i) == '-') {
+                    
+                    if(pemdas < 0) {
+                        if(i == 0 && subequation.charAt(i) == '-') {
+                            break;
+                        }
+                        else {
+                            if(i != 0) {
+                                StringBuffer temp = new StringBuffer(subequation);
+                                temp.insert(i, "+");
+                                subequation = temp.toString();
+                            }
+                            pemdas = 0;
+                            opplace = i;
+                            normal = true;
+                        }
+                    }
+                }
+                else {
+                }
+            }
+            if(pemdas == -1) {
+                subresultfound = true;
+                if(subequation.charAt(0) == '(') {
+                    subequation = subequation.substring(1, subequation.length() - 1);
+                }
+
+            } else {
+                int finish = findfinish(subequation, opplace);
+                int beginning = findbeginning(subequation, opplace);
+                double num1 = 0;
+                double num2 = 0;
+                if(normal) {
+                    num1 = findnumber(subequation, beginning, opplace - 1);
+                    num2 = findnumber(subequation, opplace + 1, finish); 
+                }
+                else {
+                    num2 = findnumber(subequation, opplace + 1, finish); 
+                }
+                subresult = domath(num1, num2, subequation, opplace); // get subresult
+
+                subequation = subequation.replace(subequation.substring(beginning, finish + 1), "" + subresult);
+            }
+        }
+        return subequation;
+    }
+
+    public static int findfinish(String subequation, int opplace) {
+        int i = opplace + 1;
+        int finish = -1;
+        while(i < subequation.length() && finish == -1) {
+
+            // Find end of term
+            switch(subequation.charAt(i)) {
+                case '*':
+                    if (subequation.charAt(i - 1) == '*') 
+                        break; //it only breaks when ** is in the subequation we're working with so that it doesn't mistake the second * for a new operator
+                case '/':
+                case '%':
+                case '+':
+                // case '-':
+                case ')':
+                case 'a':
+                case 'l':
+                case 't':
+                case 'c':
+                case 's':
+                    finish = i - 1;
+                    break;
+            }
+            i++;
+        }
+        if (finish == -1){ // when there are no () in an equation it still needs to finish ex: 1 + 1 the finish should be 7
+            finish = i - 1;
+        }
+        return finish;
+    }
+    public static int findbeginning(String subequation, int opplace) {
+        int i = opplace - 1;
+        int beginning = - 1;
+        while(i >= 0 && beginning == - 1) {
+            switch(subequation.charAt(i)) {
+                case '*':
+                case '/':
+                case '%':
+                case '+':
+                // case '-':
+                case '(':
+                case 'n': 
+                case 's':
+                case 'g':
+                case 't':
+                case 'l':
+                    beginning = i + 1;
+                    break;
+            }
+            i--;
+        }
+        if(beginning == -1)
+            beginning = 0;
+        return beginning;
+    }
+    public static double findnumber(String subequation, int beginning, int end) {
+        // if the operator is ** opplace + 2 will be the number but opplace + 1 will be *
+        String number; // initialize number2
+        if(beginning > end) {
+            beginning = findbeginning(subequation, end);
+            end --;
+        }
+        if(beginning + 1 >= subequation.length()) {
+            number = subequation.substring(beginning, end + 1);
+        }
+        else {
+            if (subequation.charAt(beginning) == '*' || subequation.charAt(beginning) == 'n')
+                number = subequation.substring(beginning + 1, end + 1);
+            else if(subequation.charAt(beginning) == 'i' || subequation.charAt(beginning) == 'o' || subequation.charAt(beginning) == 'a' || subequation.charAt(beginning) == 'b')
+                number = subequation.substring(beginning + 2, end + 1);
+            else if(subequation.charAt(beginning) == 's' || subequation.charAt(beginning) == 'c' || subequation.charAt(beginning) == 't' || subequation.charAt(beginning) == 'q' || subequation.charAt(beginning) == 'e')
+                number = subequation.substring(beginning + 3, end + 1);
+            else
+                number = subequation.substring(beginning, end + 1);
+
+        }
+        double num = Double.parseDouble(number);
+        return num;
+    }
+}
+        </pre>
+    </section>
+</body>
+</html>
